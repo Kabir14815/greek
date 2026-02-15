@@ -19,7 +19,7 @@ function createSoftParticleTexture(): THREE.CanvasTexture {
   return tex;
 }
 
-/** Dense grainy starfield texture - tiny irregular specks, varying brightness */
+/** Sparse starfield texture - very few subtle dots */
 function createStarfieldTexture(): THREE.CanvasTexture {
   const w = 2048;
   const h = 2048;
@@ -29,27 +29,14 @@ function createStarfieldTexture(): THREE.CanvasTexture {
   const ctx = canvas.getContext('2d')!;
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, w, h);
-  const dotCount = 12000;
+  const dotCount = 600;
   for (let i = 0; i < dotCount; i++) {
     const x = Math.random() * w;
     const y = Math.random() * h;
-    const size = Math.random() < 0.7 ? 1 : Math.random() < 0.2 ? 2 : 3;
-    const brightness = 0.25 + Math.random() * 0.75;
-    const grey = Math.floor(200 + Math.random() * 55);
-    ctx.fillStyle = `rgba(${grey},${grey},${Math.min(255, grey + 30)},${brightness})`;
-    ctx.beginPath();
-    ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  // Extra stars in bottom half of canvas (fills lower part of view)
-  const bottomDotCount = 9000;
-  for (let i = 0; i < bottomDotCount; i++) {
-    const x = Math.random() * w;
-    const y = h * 0.4 + Math.random() * h * 0.6; // y from 40% to 100% (bottom 60%)
-    const size = Math.random() < 0.75 ? 1 : Math.random() < 0.2 ? 2 : 3;
-    const brightness = 0.3 + Math.random() * 0.7;
-    const grey = Math.floor(195 + Math.random() * 60);
-    ctx.fillStyle = `rgba(${grey},${grey},${Math.min(255, grey + 35)},${brightness})`;
+    const size = Math.random() < 0.8 ? 1 : 2;
+    const brightness = 0.4 + Math.random() * 0.5;
+    const grey = Math.floor(210 + Math.random() * 45);
+    ctx.fillStyle = `rgba(${grey},${grey},${Math.min(255, grey + 20)},${brightness})`;
     ctx.beginPath();
     ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
     ctx.fill();
@@ -106,17 +93,6 @@ export function initScene(canvas: HTMLCanvasElement) {
   const rimLight = new THREE.DirectionalLight(0xd4af37, 0.25);
   rimLight.position.set(0, 5, -10);
   scene.add(rimLight);
-
-  // Interior / inner sanctum lights (consolidated)
-  const interiorLight1 = new THREE.PointLight(0xffe4a0, 2.5, 50);
-  interiorLight1.position.set(-4, 3, -22);
-  scene.add(interiorLight1);
-  const interiorLight2 = new THREE.PointLight(0xffe4a0, 2.5, 50);
-  interiorLight2.position.set(4, 3, -22);
-  scene.add(interiorLight2);
-  const interiorCenter = new THREE.PointLight(0xffd700, 3, 45);
-  interiorCenter.position.set(0, 2, -24);
-  scene.add(interiorCenter);
 
   const marbleMaterial = new THREE.MeshStandardMaterial({
     color: MARBLE_WARM,
@@ -238,57 +214,10 @@ export function initScene(canvas: HTMLCanvasElement) {
     undergroundDust: THREE.Points;
   };
 
-  const particlesCount = 200;
-  const particlesGeometry = new THREE.BufferGeometry();
-  const particlesPositions = new Float32Array(particlesCount * 3);
-  for (let i = 0; i < particlesCount; i++) {
-    particlesPositions[i * 3] = (Math.random() - 0.5) * 45;
-    particlesPositions[i * 3 + 1] = (Math.random() - 0.3) * 28;
-    particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 35 - 10;
-  }
-  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
   const softTex = createSoftParticleTexture();
-  const particles = new THREE.Points(
-    particlesGeometry,
-    new THREE.PointsMaterial({
-      color: GOLD,
-      size: 0.12,
-      transparent: true,
-      opacity: 0.65,
-      sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
-      map: softTex,
-      depthWrite: false,
-    })
-  );
-  scene.add(particles);
 
-  const orbsCount = 24;
-  const orbsGeometry = new THREE.BufferGeometry();
-  const orbsPositions = new Float32Array(orbsCount * 3);
-  for (let i = 0; i < orbsCount; i++) {
-    orbsPositions[i * 3] = (Math.random() - 0.5) * 30;
-    orbsPositions[i * 3 + 1] = (Math.random() - 0.2) * 18;
-    orbsPositions[i * 3 + 2] = (Math.random() - 0.5) * 25 - 8;
-  }
-  orbsGeometry.setAttribute('position', new THREE.BufferAttribute(orbsPositions, 3));
-  const orbs = new THREE.Points(
-    orbsGeometry,
-    new THREE.PointsMaterial({
-      color: 0xffd700,
-      size: 0.28,
-      transparent: true,
-      opacity: 0.45,
-      sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
-      map: softTex.clone(),
-      depthWrite: false,
-    })
-  );
-  scene.add(orbs);
-
-  // Space theme: dense starfield
-  const starsCount = 2500;
+  // Space theme: sparse starfield
+  const starsCount = 180;
   const starsGeometry = new THREE.BufferGeometry();
   const starsPositions = new Float32Array(starsCount * 3);
   const starsColors = new Float32Array(starsCount * 3);
@@ -320,8 +249,8 @@ export function initScene(canvas: HTMLCanvasElement) {
   );
   scene.add(stars);
 
-  // Bottom/horizon stars - dense in lower sky (above ground y=-2, visible at bottom of view)
-  const bottomStarsCount = 2800;
+  // Bottom/horizon stars - very few
+  const bottomStarsCount = 60;
   const bottomStarsGeom = new THREE.BufferGeometry();
   const bottomStarsPos = new Float32Array(bottomStarsCount * 3);
   const bottomStarsColors = new Float32Array(bottomStarsCount * 3);
@@ -349,50 +278,6 @@ export function initScene(canvas: HTMLCanvasElement) {
   });
   const bottomStars = new THREE.Points(bottomStarsGeom, bottomStarsMat);
   scene.add(bottomStars);
-
-  // Nebula-like distant glow particles
-  const nebulaCount = 150;
-  const nebulaGeom = new THREE.BufferGeometry();
-  const nebulaPos = new Float32Array(nebulaCount * 3);
-  for (let i = 0; i < nebulaCount; i++) {
-    nebulaPos[i * 3] = (Math.random() - 0.5) * 120;
-    nebulaPos[i * 3 + 1] = (Math.random() - 0.3) * 70 - 35; // extend to bottom
-    nebulaPos[i * 3 + 2] = (Math.random() - 0.5) * 100 - 60;
-  }
-  nebulaGeom.setAttribute('position', new THREE.BufferAttribute(nebulaPos, 3));
-  const nebula = new THREE.Points(
-    nebulaGeom,
-    new THREE.PointsMaterial({
-      color: 0x4a3f7a,
-      size: 0.4,
-      transparent: true,
-      opacity: 0.15,
-      sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
-      map: softTex.clone(),
-      depthWrite: false,
-    })
-  );
-  scene.add(nebula);
-
-  const nebula2Pos = new Float32Array(nebulaCount * 3);
-  for (let i = 0; i < nebulaCount * 3; i++) nebula2Pos[i] = (Math.random() - 0.5) * 110;
-  const nebula2Geom = new THREE.BufferGeometry();
-  nebula2Geom.setAttribute('position', new THREE.BufferAttribute(nebula2Pos, 3));
-  const nebula2 = new THREE.Points(
-    nebula2Geom,
-    new THREE.PointsMaterial({
-      color: 0x2a4a6a,
-      size: 0.35,
-      transparent: true,
-      opacity: 0.12,
-      sizeAttenuation: true,
-      blending: THREE.AdditiveBlending,
-      map: softTex.clone(),
-      depthWrite: false,
-    })
-  );
-  scene.add(nebula2);
 
   // Ground: dark reflective surface (cosmic floor)
   const ground = new THREE.Mesh(
@@ -508,34 +393,8 @@ export function initScene(canvas: HTMLCanvasElement) {
     centerStatue.rotation.y = Math.sin(time * 0.12) * 0.03;
     centerStatue.position.y = 1.5 + Math.sin(time * 0.25) * 0.02;
 
-    particlesMaterial.opacity = 0.7 * (1 - t * 0.9);
-    orbsMaterial.opacity = 0.4 * (1 - t * 0.9);
     starsMaterial.opacity = 0.95 * (1 - t * 0.85);
     bottomStarsMaterial.opacity = 0.9 * (1 - t * 0.85);
-    nebulaMaterial.opacity = 0.15 * (1 - t * 0.9);
-    nebula2Material.opacity = 0.12 * (1 - t * 0.9);
-
-    // Exterior particles: skip update when fully faded (t > 0.8)
-    if (t < 0.85) {
-      const posAttr = particlesGeometry.attributes.position;
-      const parr = posAttr.array as Float32Array;
-      const drift = time * 0.002;
-      for (let i = 0; i < particlesCount; i++) {
-        parr[i * 3 + 1] += (i % 3 - 1) * 0.003 + drift;
-        if (parr[i * 3 + 1] > 12) parr[i * 3 + 1] = -10;
-        if (parr[i * 3 + 1] < -10) parr[i * 3 + 1] = 12;
-      }
-      posAttr.needsUpdate = true;
-
-      const orbsAttr = orbsGeometry.attributes.position;
-      const oarr = orbsAttr.array as Float32Array;
-      for (let i = 0; i < orbsCount; i++) {
-        oarr[i * 3 + 1] += 0.002;
-        if (oarr[i * 3 + 1] > 9) oarr[i * 3 + 1] = -8;
-      }
-      orbsAttr.needsUpdate = true;
-    }
-
     // Interior particles: only update when interior visible (t > 0.15)
     if (t > 0.12) {
       if (waterfallParticles) {
@@ -590,12 +449,8 @@ export function initScene(canvas: HTMLCanvasElement) {
     renderer.render(scene, camera);
   }
 
-  const particlesMaterial = particles.material as THREE.PointsMaterial;
-  const orbsMaterial = orbs.material as THREE.PointsMaterial;
   const starsMaterial = stars.material as THREE.PointsMaterial;
   const bottomStarsMaterial = bottomStars.material as THREE.PointsMaterial;
-  const nebulaMaterial = nebula.material as THREE.PointsMaterial;
-  const nebula2Material = nebula2.material as THREE.PointsMaterial;
 
   animate();
 
@@ -903,10 +758,10 @@ function createInteriorMonument(): THREE.Group {
   const dustParticles = new THREE.Points(
     dustGeom,
     new THREE.PointsMaterial({
-      color: GOLD,
+      color: 0xd8e8f0,
       size: 0.12,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.4,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
       map: softTex.clone(),
@@ -914,11 +769,6 @@ function createInteriorMonument(): THREE.Group {
     })
   );
   group.add(dustParticles);
-
-  // Interior ambient light for warm glow
-  const fountainLight = new THREE.PointLight(0xffeedd, 4, 25);
-  fountainLight.position.set(0, 4, -10);
-  group.add(fountainLight);
 
   group.userData = {
     waterfallParticles,
@@ -1140,10 +990,10 @@ function createUndergroundChamber(
   const undergroundDust = new THREE.Points(
     dustGeom,
     new THREE.PointsMaterial({
-      color: GOLD,
+      color: 0xd8e8f0,
       size: 0.14,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.4,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
       map: softTex.clone(),
@@ -1151,10 +1001,6 @@ function createUndergroundChamber(
     })
   );
   group.add(undergroundDust);
-
-  const altarLight = new THREE.PointLight(0xffe8b0, 3, 30);
-  altarLight.position.set(0, 3, -11);
-  group.add(altarLight);
 
   group.userData = { undergroundWaterfall, undergroundDust };
   return group;

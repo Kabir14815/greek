@@ -84,16 +84,6 @@ gsap.from('.hero-cta', {
   ease: 'power3.out',
 });
 
-// Premium: Add subtle continuous glow pulse to hero title
-gsap.to('.title-line.accent', {
-  textShadow: '0 0 40px rgba(212, 175, 55, 0.2), 0 0 80px rgba(212, 175, 55, 0.1)',
-  duration: 2,
-  repeat: -1,
-  yoyo: true,
-  ease: 'sine.inOut',
-  delay: 2.5,
-});
-
 // Scroll indicator - premium bounce
 gsap.to('.scroll-arrow', {
   y: 10,
@@ -184,7 +174,7 @@ document.querySelectorAll('.project-card').forEach((card, i) => {
 document.querySelectorAll('.project-card').forEach((card) => {
   card.addEventListener('mouseenter', () => {
     gsap.to(card, {
-      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 175, 55, 0.1)',
+      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4)',
       duration: 0.35,
       ease: 'power2.out',
     });
@@ -224,7 +214,7 @@ document.querySelectorAll('.feature-card').forEach((card, i) => {
   card.addEventListener('mouseenter', () => {
     gsap.to(card, {
       scale: 1.02,
-      boxShadow: '0 25px 70px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.15)',
+      boxShadow: '0 25px 70px rgba(0, 0, 0, 0.5)',
       duration: 0.4,
       ease: 'power2.out',
     });
