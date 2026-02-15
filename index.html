@@ -13,7 +13,18 @@
   <body>
     <div id="app">
       <canvas id="canvas-3d"></canvas>
-      
+      <div class="space-geometry space-geometry-right" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMax yMax meet">
+          <line x1="45" y1="100" x2="88" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
+          <line x1="100" y1="32" x2="88" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+      <div class="space-geometry space-geometry-left" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMin yMax meet">
+          <line x1="55" y1="100" x2="12" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
+          <line x1="0" y1="32" x2="12" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
       <div class="noise-overlay"></div>
       
       <header class="header">
@@ -66,6 +77,31 @@
           </blockquote>
         </section>
 
+        <section class="stats-section">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-number" data-count="25">0</span>
+              <span class="stat-suffix">+</span>
+              <span class="stat-label">Years of Excellence</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="150">0</span>
+              <span class="stat-suffix">+</span>
+              <span class="stat-label">Monumental Projects</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="500">0</span>
+              <span class="stat-suffix">+</span>
+              <span class="stat-label">Families Served</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="12">0</span>
+              <span class="stat-suffix"></span>
+              <span class="stat-label">Master Artisans</span>
+            </div>
+          </div>
+        </section>
+
         <section class="interior-section" id="interior">
           <div class="interior-overlay">
             <h2 class="interior-title">Step Inside</h2>
@@ -81,21 +117,84 @@
         </section>
 
         <section class="features">
-          <div class="feature-card" data-parallax="0.1">
-            <div class="feature-icon">🏛️</div>
-            <h3>Monumental Design</h3>
-            <p>Every structure bears the weight of permanence—crafted with precision that echoes through centuries.</p>
+          <h2 class="features-heading">What Sets Us Apart</h2>
+          <div class="features-grid">
+            <div class="feature-card" data-parallax="0.1">
+              <div class="feature-icon">🏛️</div>
+              <h3>Monumental Design</h3>
+              <p>Every structure bears the weight of permanence—crafted with precision that echoes through centuries.</p>
+            </div>
+            <div class="feature-card" data-parallax="0.15">
+              <div class="feature-icon">⚒️</div>
+              <h3>Master Craftsmanship</h3>
+              <p>Our artisans carry forward traditions of excellence, blending time-honored techniques with innovation.</p>
+            </div>
+            <div class="feature-card" data-parallax="0.2">
+              <div class="feature-icon">🌅</div>
+              <h3>Timeless Legacy</h3>
+              <p>Buildings that stand not merely for decades, but for generations—testaments to human achievement.</p>
+            </div>
+            <div class="feature-card" data-parallax="0.12">
+              <div class="feature-icon">📐</div>
+              <h3>Sacred Geometry</h3>
+              <p>We honor classical proportions—the golden ratio, harmonic balance—in every beam and column.</p>
+            </div>
+            <div class="feature-card" data-parallax="0.18">
+              <div class="feature-icon">✨</div>
+              <h3>Premium Materials</h3>
+              <p>Only the finest marble, stone, and finishes—sourced with care, placed with reverence.</p>
+            </div>
+            <div class="feature-card" data-parallax="0.14">
+              <div class="feature-icon">🏆</div>
+              <h3>Award-Winning</h3>
+              <p>Recognized for architectural excellence and dedication to heritage preservation worldwide.</p>
+            </div>
           </div>
-          <div class="feature-card" data-parallax="0.15">
-            <div class="feature-icon">⚒️</div>
-            <h3>Master Craftsmanship</h3>
-            <p>Our artisans carry forward traditions of excellence, blending time-honored techniques with innovation.</p>
+        </section>
+
+        <section class="heritage-section" id="heritage">
+          <div class="heritage-content">
+            <h2 class="heritage-title">Our Heritage</h2>
+            <p class="heritage-lead">Since 1999, Gilloco Valley has stood at the intersection of ancient craft and contemporary vision.</p>
+            <div class="heritage-text">
+              <p>From the hills of Athens to modern skylines, our builders have drawn inspiration from the temples and monuments that have endured millennia. We don't merely imitate—we interpret, adapt, and elevate.</p>
+              <p>Each project begins with a dialogue: between client and craftsman, past and present, stone and sky. The result is architecture that feels both eternal and unmistakably alive.</p>
+            </div>
           </div>
-          <div class="feature-card" data-parallax="0.2">
-            <div class="feature-icon">🌅</div>
-            <h3>Timeless Legacy</h3>
-            <p>Buildings that stand not merely for decades, but for generations—testaments to human achievement.</p>
+        </section>
+
+        <section class="projects-section" id="craft">
+          <h2 class="projects-heading">Signature Works</h2>
+          <div class="projects-grid">
+            <article class="project-card">
+              <div class="project-figure">Γ</div>
+              <h3>Temple of Reflection</h3>
+              <p>Private estate, Mediterranean coast</p>
+            </article>
+            <article class="project-card">
+              <div class="project-figure">Δ</div>
+              <h3>Odeon Residence</h3>
+              <p>Concert hall & residence, Athens</p>
+            </article>
+            <article class="project-card">
+              <div class="project-figure">Σ</div>
+              <h3>Stoa Gardens</h3>
+              <p>Public pavilions & colonnades</p>
+            </article>
+            <article class="project-card">
+              <div class="project-figure">Ω</div>
+              <h3>Tholos Sanctuary</h3>
+              <p>Spiritual retreat, mountain vista</p>
+            </article>
           </div>
+        </section>
+
+        <section class="quote-section quote-section-secondary">
+          <blockquote class="greek-quote">
+            <span class="quote-mark">"</span>
+            <p>Excellence is not a destination; it is a continuous journey.</p>
+            <cite>— Gilloco Valley</cite>
+          </blockquote>
         </section>
 
         <section class="cta-section">
@@ -108,7 +207,26 @@
       </main>
 
       <footer class="footer">
-        <div class="footer-content">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <span class="logo-symbol">Γ</span>
+            <span class="footer-logo-text">Gilloco Valley</span>
+            <p class="footer-tagline">Builders of Timeless Excellence</p>
+          </div>
+          <div class="footer-links">
+            <h4>Navigate</h4>
+            <a href="#projects">Projects</a>
+            <a href="#craft">Our Craft</a>
+            <a href="#heritage">Heritage</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div class="footer-contact" id="contact">
+            <h4>Begin Your Legacy</h4>
+            <p>hello@gillocovalley.com</p>
+            <p>+1 (555) 123-4567</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
           <p>© 2025 Gilloco Valley. All rights reserved.</p>
         </div>
       </footer>

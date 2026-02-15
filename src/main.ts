@@ -118,6 +118,92 @@ document.querySelectorAll('.btn').forEach((btn) => {
   });
 });
 
+// Stats counter animation
+document.querySelectorAll('.stat-item').forEach((item) => {
+  const numEl = item.querySelector('.stat-number') as HTMLElement;
+  const target = numEl?.dataset.count ? parseInt(numEl.dataset.count, 10) : 0;
+  if (!numEl || isNaN(target)) return;
+  ScrollTrigger.create({
+    trigger: item,
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      let current = 0;
+      const duration = 1500;
+      const start = performance.now();
+      const step = (now: number) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        current = Math.floor(target * (1 - Math.pow(1 - progress, 2)));
+        numEl.textContent = String(current);
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    },
+  });
+});
+
+// Stats section reveal
+gsap.from('.stats-grid', {
+  scrollTrigger: { trigger: '.stats-section', start: 'top 80%', toggleActions: 'play none none reverse' },
+  opacity: 0,
+  y: 40,
+  duration: 1,
+  ease: 'power3.out',
+});
+
+// Heritage section
+gsap.from('.heritage-content', {
+  scrollTrigger: { trigger: '.heritage-section', start: 'top 82%', toggleActions: 'play none none reverse' },
+  opacity: 0,
+  y: 50,
+  duration: 1.2,
+  ease: 'power3.out',
+});
+
+// Projects section
+gsap.from('.projects-heading', {
+  scrollTrigger: { trigger: '.projects-section', start: 'top 85%', toggleActions: 'play none none reverse' },
+  opacity: 0,
+  y: 30,
+  duration: 0.8,
+  ease: 'power3.out',
+});
+document.querySelectorAll('.project-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: '.projects-section', start: 'top 80%', toggleActions: 'play none none reverse' },
+    opacity: 0,
+    y: 40,
+    duration: 0.8,
+    delay: i * 0.1,
+    ease: 'power3.out',
+  });
+});
+
+// Project cards hover
+document.querySelectorAll('.project-card').forEach((card) => {
+  card.addEventListener('mouseenter', () => {
+    gsap.to(card, {
+      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(212, 175, 55, 0.1)',
+      duration: 0.35,
+      ease: 'power2.out',
+    });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { boxShadow: 'none', duration: 0.35, ease: 'power2.out' });
+  });
+});
+
+// Second quote
+gsap.from('.quote-section-secondary .greek-quote', {
+  scrollTrigger: { trigger: '.quote-section-secondary', start: 'top 85%', toggleActions: 'play none none reverse' },
+  opacity: 0,
+  scale: 0.98,
+  y: 25,
+  duration: 1.2,
+  ease: 'power3.out',
+});
+
 // Feature cards - premium reveal with scale + rotation
 document.querySelectorAll('.feature-card').forEach((card, i) => {
   gsap.from(card, {
